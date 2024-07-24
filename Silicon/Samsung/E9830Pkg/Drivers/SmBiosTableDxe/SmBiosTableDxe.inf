@@ -22,6 +22,7 @@
   BaseMemoryLib
   MemoryAllocationLib
   UefiLib
+  IoLib
 
 [FixedPcd]
   gArmTokenSpaceGuid.PcdSystemMemoryBase
