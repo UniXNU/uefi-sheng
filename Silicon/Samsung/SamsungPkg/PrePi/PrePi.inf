@@ -44,6 +44,7 @@
   PcdLib
   BaseMemoryLib
   DebugLib
+  IoLib
   SerialPortLib
   PlatformPrePiLib
   MemoryInitPeiLib
