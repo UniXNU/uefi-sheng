@@ -6,18 +6,33 @@ It uses Kailua SM8550 support from Mu-Silicium revision
 compiled DTS include closure in ianchb/sm8550-mainline revision
 42f3b40c702abbc37c3a04c95af008cd283aeaf3, not the QRD8550 DDR map.
 
-The FD at 0xa7100000, SEC allocations, stack, kernel staging area, and DXE
-heap are inherited layout candidates. They do not overlap that source's
-static reservations, but this does not prove that they are usable RAM on a
-specific tablet. The Linux memory node has size zero until its bootloader
-fills it. Runtime RAM, display, XBL and hypervisor reservations remain to
-be checked against captured firmware data.
+The board map now reconciles all 34 pinned Linux DTS reservations with
+27 stock memory-map regions from OS3.0.305.0.WNXMIXM Global firmware.
+The archive MD5 is 31450b6677d9e46edc4937c3f797c51d; its extracted
+uefiplat.cfg SHA-256 is
+3208aee1f7a0c1264c5166dc14d1f026f9c64754c99c551b70888f26843a6cbb.
 
-The configuration library and required vendor driver names are provisional
-QRD8550 references. Every binary path has been changed to `Binaries/sheng`;
-no QRD binary is silently used. Stock sheng XBL/UEFI modules and its
-`uefiplat.cfg` are needed to resolve those dependencies and confirm the
-configuration. Neither those modules nor panel data are distributed here.
+The resulting 72 descriptors cover 11 previously missing stock ranges,
+including PIL gaps, display/Demura memory, DBI dump and CPU vectors.
+Stock NoMap regions produce reservation HOBs without MMU mappings.
+The 3 MiB port FD at 0xa7100000 lies inside the stock 4 MiB FD window
+at 0xa7000000; its preceding 1 MiB remains reserved by port policy.
+Stack, SEC, FV and DXE heap allocations agree with the stock layout.
+This is firmware evidence, not a hardware or runtime RAM observation.
+
+Numeric configuration values now come from that firmware, with explicit
+single-CPU/headless bring-up overrides: display initialization, image-FV
+loading, parallel decompression, multithreading and persistent logging are
+disabled. NumCpus still reports the real eight-core topology; only one core
+is active during bring-up. The numeric configuration library does not
+represent the stock string parameters.
+
+All 52 currently selected vendor inputs are available from the same stock
+UEFI image. The import tool preserves module GUIDs, PE bytes and binary
+DEPEX, and keeps them in the local cache behind Binaries/sheng. They are
+not distributed here. Full firmware assembly and runtime driver protocol
+compatibility still require qualification. Static coverage of the stock
+TZApps dynamic reservation does not establish runtime partition sizes.
 
 Initial bring-up is headless. Do not enable SimpleFbDxe until the actual
 framebuffer address, reservation, pixel layout, stride and dimensions are
