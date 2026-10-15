@@ -27,7 +27,7 @@ disabled. NumCpus still reports the real eight-core topology; only one core
 is active during bring-up. The numeric configuration library does not
 represent the stock string parameters.
 
-All 52 currently selected vendor inputs are available from the same stock
+All 53 currently selected vendor inputs are available from the same stock
 UEFI image. The import tool preserves module GUIDs, PE bytes and binary
 DEPEX, and keeps them in the local cache behind Binaries/sheng. They are
 not distributed here. Full firmware assembly and runtime driver protocol
@@ -47,3 +47,10 @@ The Android container matches debian-sheng's legacy header and offsets.
 This is source-level evidence for the container recipe, not a bootloader
 acceptance test. A compiled DTB must be staged as `Resources/DTBs/sheng.dtb`
 before packaging; its runtime fixups must be preserved before kernel use.
+
+The full DEBUG CLANGPDB FD now builds with secure-boot support enabled.
+Independent FV extraction finds 103 FFS files, verifies 51 selected vendor
+executables and DEPEX payloads unchanged, and finds no dangling APRIORI
+GUIDs. GLink is included consistently with its APRIORI entry; the genuine
+ProjectInfoDxe follows PlatformInfo as in the stock startup list. This FD
+is still an offline candidate and has not been packaged/tested on hardware.

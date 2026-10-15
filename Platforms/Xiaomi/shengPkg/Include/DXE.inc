@@ -26,8 +26,9 @@
 
   INF Binaries/sheng/QcomPkg/Drivers/ChipInfoDxe/ChipInfoDxe.inf
   INF Binaries/sheng/QcomPkg/Drivers/IPCCDxe/IPCCDxe.inf
-  #INF Binaries/sheng/QcomPkg/Drivers/GLinkDxe/GLinkDxe.inf
+  INF Binaries/sheng/QcomPkg/Drivers/GLinkDxe/GLinkDxe.inf
   INF Binaries/sheng/QcomPkg/Drivers/PlatformInfoDxe/PlatformInfoDxe.inf
+  INF Binaries/sheng/QcomPkg/Drivers/ProjectInfoDxe/ProjectInfoDxe.inf
   INF Binaries/sheng/QcomPkg/Drivers/DALSYSDxe/DALSYSDxe.inf
   INF Binaries/sheng/QcomPkg/Drivers/HALIOMMUDxe/HALIOMMUDxe.inf
   INF Binaries/sheng/QcomPkg/Drivers/HWIODxe/HWIODxe.inf
