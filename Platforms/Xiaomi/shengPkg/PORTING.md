@@ -53,4 +53,14 @@ Independent FV extraction finds 103 FFS files, verifies 51 selected vendor
 executables and DEPEX payloads unchanged, and finds no dangling APRIORI
 GUIDs. GLink is included consistently with its APRIORI entry; the genuine
 ProjectInfoDxe follows PlatformInfo as in the stock startup list. This FD
-is still an offline candidate and has not been packaged/tested on hardware.
+is still an offline candidate and has not been tested on hardware.
+
+The offline container now round-trips through its Android v0 header, gzip
+stream, exact FD and appended DTB. BootShim's ARM64 image_size includes the
+shim itself, and its copy path cleans the destination to PoC, invalidates
+local instructions and synchronizes before branching. The 192-byte shim's
+payload label equals its binary length. Bounded QEMU fixtures check every
+payload byte, destination entry and x0 preservation for both relocation and
+already-in-place paths. These run with MMU/data caches off and do not prove
+hardware cache coherency. Stock boot.img uses header v4; accepting the legacy
+v0 container and runtime placement remain ABL qualification work.
