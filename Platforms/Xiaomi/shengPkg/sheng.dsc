@@ -26,12 +26,24 @@
   USE_CUSTOM_DISPLAY_DRIVER      = 0
 
   #
+  # 0 = Mu drivers only. The previous stage's display keeps scanning out, so
+  #     the boot manager is visible without any vendor hardware driver.
+  # 1 = also load the stock vendor hardware drivers (SMEM, clocks, RPMh, UFS,
+  #     USB, charger, ...). Their initialization currently blanks the panel.
+  #
+  SHENG_VENDOR_HW                = 0
+
+  #
   # 0 = SM8550-AB
   # 1 = SM8550-AC
   #
   SOC_TYPE                       = 0
 
 !include KailuaPkg/KailuaPkg.dsc.inc
+
+!if ($(USE_CUSTOM_DISPLAY_DRIVER) == 1) && ($(SHENG_VENDOR_HW) == 0)
+  !error The stock DisplayDxe chain needs SHENG_VENDOR_HW = 1
+!endif
 
 [PcdsFixedAtBuild]
   #
@@ -65,6 +77,11 @@
   gSiliciumPkgTokenSpaceGuid.PcdFrameBufferWidth|3048
   gSiliciumPkgTokenSpaceGuid.PcdFrameBufferHeight|2032
   gSiliciumPkgTokenSpaceGuid.PcdFrameBufferColorDepth|32
+  # Scale 3 gives 56 lines. The log wraps, so the screen always shows the
+  # newest lines; the platform debug level is left unchanged.
+  gSiliciumPkgTokenSpaceGuid.PcdFrameBufferFontScale|3
+  # Pause per log line so a video of the screen shows what loads last.
+  gSiliciumPkgTokenSpaceGuid.PcdFrameBufferDelay|30000
 
 
   #
@@ -90,6 +107,7 @@
   CrabApplePkg/Application/CrabApple/CrabApple.inf
   CrabApplePkg/Driver/CrabAppleDxe/CrabAppleDxe.inf
   shengPkg/Drivers/ShengDisplayDepexDxe/ShengDisplayDepexDxe.inf
+  shengPkg/Drivers/ShengGopLogDxe/ShengGopLogDxe.inf
 
 [LibraryClasses]
   CrabAppleLib|CrabApplePkg/Library/CrabAppleLib/CrabAppleLib.inf
