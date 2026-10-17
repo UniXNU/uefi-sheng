@@ -43,6 +43,26 @@ CrabApple is embedded as an application plus its registrar. The sibling
 `crabapple` repository supplies the package; `CRABAPPLE_ROOT` can override
 that location. Its core remains unchanged by board-specific code.
 
+## Display chain (first-boot 亮屏 path)
+
+The stock DisplayDxe is now packaged with the board's N81A 3048x2032
+dual-DSI DSC panel XMLs (`Panel_N81A_36_02_0a{,_p0}_duldsi_dsc_vid.xml`)
+under their original FFS GUIDs and UI names; the SSH-observed panel mode
+`U:3048x2032p-0` matches. DisplayDxe contains genuine N81A detection,
+power-up (PMIC rails disp_prim_lcd_n81a_vddi_s3g/l12b) and backlight
+sequences. Its original DEPEX requires nine protocols; seven come from the
+packaged vendor drivers (PlatformInfo, ChipInfo, Clock, TLMM, I2C and two
+PMIC). The remaining two GUIDs (A966CC4F-EE6C-424D-A762-8ED3B5A4A501,
+47861DFF-556F-4269-9B28-062EC3ECB30D) appear nowhere else in the entire
+stock image and are not referenced by DisplayDxe code, so the board driver
+ShengDisplayDepexDxe installs empty flag protocols for them; no vendor byte
+changes. check-sheng-fv now reports 107 FFS files, 52 vendor modules with
+unchanged executables/DEPEX, no dangling APRIORI, with ~645 KiB FD headroom.
+The headless single-core config overrides stay for first boot: display
+thread and image-FV logo are BDS features of the stock QcomBds that this
+firmware does not ship; DisplayDxe initializes panels at its entry point.
+Panel init touches real MDP/DSI MMIO and can only be observed on hardware.
+
 The Android container matches debian-sheng's legacy header and offsets.
 This is source-level evidence for the container recipe, not a bootloader
 acceptance test. A compiled DTB must be staged as `Resources/DTBs/sheng.dtb`
