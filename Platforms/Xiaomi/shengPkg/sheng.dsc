@@ -54,6 +54,18 @@
   gSiliciumPkgTokenSpaceGuid.PcdSmbiosSystemRetailSku|"sheng"
   gSiliciumPkgTokenSpaceGuid.PcdSmbiosSystemBoardModel|"sheng"
 
+  #
+  # Simple Frame Buffer
+  #
+  # Active size from the stock N81A panel XML (HorizontalActive 3048,
+  # VerticalActive 2032). Without these the DEBUG frame-buffer log draws
+  # nothing after SEC clears "Display Reserved", leaving a black screen.
+  # ABL's scan-out stride is assumed equal to the width; unverified.
+  #
+  gSiliciumPkgTokenSpaceGuid.PcdFrameBufferWidth|3048
+  gSiliciumPkgTokenSpaceGuid.PcdFrameBufferHeight|2032
+  gSiliciumPkgTokenSpaceGuid.PcdFrameBufferColorDepth|32
+
 
   #
   # Platform PEI
