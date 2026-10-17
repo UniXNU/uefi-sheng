@@ -37,6 +37,10 @@ TZApps dynamic reservation does not establish runtime partition sizes.
 Initial bring-up is headless. Do not enable SimpleFbDxe until the actual
 framebuffer address, reservation, pixel layout, stride and dimensions are
 known. QRD panel XMLs, display reservations and board ACPI are not included.
+The SimpleFb PCDs are set only for the DEBUG FrameBufferSerialPortLib early
+log, from the stock N81A XML active size (3048x2032, 32 bpp). Its writes stay
+inside the stock 0x2B00000 "Display Reserved" region; SimpleFbDxe is not in
+the FV. With the PCDs at 0 the log drew nothing after SEC cleared the region.
 Generic Kailua code may still require additional ACPI/DT work.
 
 CrabApple is embedded as an application plus its registrar. The sibling
