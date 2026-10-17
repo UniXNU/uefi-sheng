@@ -204,7 +204,13 @@ WriteFrameBuffer (
 
   // Handle Control Characters
   if (Character < 32) {
-    if (Character == '\n') {
+    if (Character == '\f') {
+      // Form feed: clear the whole screen and start again at the top left, so a
+      // message that matters (the hand-off to a kernel) fills the screen.
+      ZeroMem ((VOID *)mFbGeometry.Base, (UINTN)FB_PITCH * FB_HEIGHT);
+      CurrentPosition->XPos = 0;
+      CurrentPosition->YPos = 0;
+    } else if (Character == '\n') {
       AdvanceNewLine (FbBase, FbLength, CurrentPosition, MaxPosition);
     } else if (Character == '\r') {
       CurrentPosition->XPos = 0;
