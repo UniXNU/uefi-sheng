@@ -1,0 +1,25 @@
+diff --git a/ArmPkg/Drivers/ArmGicDxe/GicV3/ArmGicV3Dxe.c b/ArmPkg/Drivers/ArmGicDxe/GicV3/ArmGicV3Dxe.c
+index 5fd28e3..9fc5942 100644
+--- a/ArmPkg/Drivers/ArmGicDxe/GicV3/ArmGicV3Dxe.c
++++ b/ArmPkg/Drivers/ArmGicDxe/GicV3/ArmGicV3Dxe.c
+@@ -504,8 +504,20 @@ GicV3IrqInterruptHandler (
+     // Call the registered interrupt handler.
+     (*InterruptHandlerPtr)(GicInterrupt, SystemContext);
+   } else {
++    BOOLEAN  Enabled;
++
+     DEBUG ((DEBUG_ERROR, "Spurious GIC interrupt: 0x%x\n", (UINT32)GicInterrupt));
++
++    // A level interrupt without a handler fires again as soon as it is
++    // acknowledged and would starve the CPU. Mask it, like an unhandled IRQ
++    // in other kernels; registering a handler enables the source again.
++    GicV3DisableInterruptSource (&gHardwareInterruptV3Protocol, GicInterrupt);
+     GicV3EndOfInterrupt (&gHardwareInterruptV3Protocol, GicInterrupt);
++
++    Enabled = FALSE;
++    if (!EFI_ERROR (GicV3GetInterruptSourceState (&gHardwareInterruptV3Protocol, GicInterrupt, &Enabled)) && Enabled) {
++      DEBUG ((DEBUG_ERROR, "GIC interrupt 0x%x cannot be masked\n", (UINT32)GicInterrupt));
++    }
+   }
+ }
+ 

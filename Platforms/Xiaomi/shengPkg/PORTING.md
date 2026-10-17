@@ -34,13 +34,30 @@ not distributed here. Full firmware assembly and runtime driver protocol
 compatibility still require qualification. Static coverage of the stock
 TZApps dynamic reservation does not establish runtime partition sizes.
 
-Initial bring-up is headless. Do not enable SimpleFbDxe until the actual
-framebuffer address, reservation, pixel layout, stride and dimensions are
-known. QRD panel XMLs, display reservations and board ACPI are not included.
-The SimpleFb PCDs are set only for the DEBUG FrameBufferSerialPortLib early
-log, from the stock N81A XML active size (3048x2032, 32 bpp). Its writes stay
-inside the stock 0x2B00000 "Display Reserved" region; SimpleFbDxe is not in
-the FV. With the PCDs at 0 the log drew nothing after SEC cleared the region.
+## Bring-up state observed on the device (fastboot boot, no flashing)
+
+The stock ABL hands over with the panel scanning out the 3048x2032 32-bit
+linear frame buffer at the "Display Reserved" region (the stock sheng dtbo
+carries a `splash_region` node for it; the appended DTB needs the same node
+or ABL powers the panel down, see `scripts/sheng-abl-dtb.py` in the umbrella).
+Line pitch equals the width in bytes; the early log is readable as is.
+
+* `SHENG_VENDOR_HW = 0` (default): Mu drivers only, SimpleFbDxe publishes the
+  GOP on that frame buffer. The panel stays on and CrabApple's menu shows.
+* `SHENG_VENDOR_HW = 1`: adds the stock vendor hardware drivers. Their
+  initialization (seen last: ClockDxe after SMEM/DAL/IPCC/GLink/CmdDb/NPA/RPMh/
+  VCS) turns the panel black while the backlight stays on; the log goes with
+  it. The stock DisplayDxe chain (`USE_CUSTOM_DISPLAY_DRIVER = 1`) needs this
+  and has never produced a GOP here. RamManagerDxe also needs this stack.
+
+SEC selects SP_ELx first: the previous stage enters with SPSel=0, which made
+every exception run on a stale SP_EL1 next to the unwritable vector page.
+`Resources/MuPatches/Gic-Spurious.patch` masks a GIC interrupt that has no
+handler; the leftover IPCC interrupt (INTID 0x105) otherwise loops forever.
+The umbrella `scripts/build-uefi-sheng.sh` applies it for the build only.
+The log follows the frame buffer a platform driver hands over
+(`ShengGopLogDxe`, used by the stock display chain only).
+
 Generic Kailua code may still require additional ACPI/DT work.
 
 CrabApple is embedded as an application plus its registrar. The sibling
