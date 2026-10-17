@@ -69,6 +69,11 @@
   INF Binaries/sheng/QcomPkg/Drivers/SdccDxe/SdccDxe.inf
   INF Binaries/sheng/QcomPkg/Drivers/FeatureEnablerDxe/FeatureEnablerDxe.inf
 
+  # Stock sheng display chain: board DEPEX glue, then unchanged vendor
+  # DisplayDxe with the N81A panel data from RAW.inc.
+  INF shengPkg/Drivers/ShengDisplayDepexDxe/ShengDisplayDepexDxe.inf
+  INF Binaries/sheng/QcomPkg/Drivers/DisplayDxe/DisplayDxe.inf
+
   # Headless until stock sheng framebuffer data is available.
 
   INF Binaries/sheng/QcomPkg/Drivers/ButtonsDxe/ButtonsDxe.inf
