@@ -13,6 +13,12 @@
 .set CTRL_SPAN_BIT, BIT23
 
 ASM_FUNC (_ModuleEntryPoint)
+  // The previous stage may enter with SPSel=0. Exceptions are then taken on
+  // the stale SP_EL1 instead of the stack set up below, so select SP_ELx
+  // first; the stack pointer written in MainEntryPoint is then SP_EL1.
+  msr   SPSel, #1
+  isb
+
   // Do Platform Specific Initialization
   bl    ASM_PFX (PlatformAssemblyInitialize)
 
