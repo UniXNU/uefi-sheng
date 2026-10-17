@@ -119,8 +119,11 @@ MemoryPeim (
   // Get Memory Map
   GetMemoryMap (&MemoryDescriptor, &MemoryDescriptorCount);
 
+  DEBUG ((EFI_D_WARN, "MMU: %u regions\n", (UINT32)MemoryDescriptorCount));
+
   // Validate Memory Map
   ValidateMemoryMap (MemoryDescriptor, MemoryDescriptorCount);
+  DEBUG ((EFI_D_WARN, "MMU: map valid\n"));
 
   // Go thru each Memory Region
   for (UINT8 i = 0; i < MemoryDescriptorCount; i++) {
@@ -142,8 +145,11 @@ MemoryPeim (
     Index++;
   }
 
+  DEBUG ((EFI_D_WARN, "MMU: HOBs built, enabling\n"));
+
   // Configure MMU
   Status = ArmConfigureMmu (MemoryTable, &TranslationTableBase, &TranslationTableSize);
+  DEBUG ((EFI_D_WARN, "MMU: enabled\n"));
   if (EFI_ERROR (Status)) {
     DEBUG ((EFI_D_ERROR, "Failed to Configure MMU! Status = %r\n", Status));
     return Status;
