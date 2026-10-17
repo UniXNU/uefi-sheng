@@ -1,0 +1,20 @@
+[Defines]
+  INF_VERSION                    = 0x0001001B
+  BASE_NAME                      = ShengDisplayDepexDxe
+  FILE_GUID                      = 2E9C7B54-8F1D-4A63-9B0E-5C4D21FA8B37
+  MODULE_TYPE                    = DXE_DRIVER
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = ShengDisplayDepexDxeEntry
+
+[Sources]
+  ShengDisplayDepexDxe.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+
+[Depex]
+  TRUE
+
+[LibraryClasses]
+  UefiBootServicesTableLib
+  UefiDriverEntryPoint

@@ -54,6 +54,8 @@ APRIORI DXE {
 
   INF Binaries/sheng/QcomPkg/Drivers/DDRInfoDxe/DDRInfoDxe.inf
   INF Binaries/sheng/QcomPkg/Drivers/FeatureEnablerDxe/FeatureEnablerDxe.inf
+  INF shengPkg/Drivers/ShengDisplayDepexDxe/ShengDisplayDepexDxe.inf
+  INF Binaries/sheng/QcomPkg/Drivers/DisplayDxe/DisplayDxe.inf
   INF Binaries/sheng/QcomPkg/Drivers/PILProxyDxe/PILProxyDxe.inf
   INF Binaries/sheng/QcomPkg/Drivers/PILDxe/PILDxe.inf
   INF Binaries/sheng/QcomPkg/Drivers/SPSSDxe/SPSSDxe.inf

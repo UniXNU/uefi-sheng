@@ -77,6 +77,7 @@
   #
   CrabApplePkg/Application/CrabApple/CrabApple.inf
   CrabApplePkg/Driver/CrabAppleDxe/CrabAppleDxe.inf
+  shengPkg/Drivers/ShengDisplayDepexDxe/ShengDisplayDepexDxe.inf
 
 [LibraryClasses]
   CrabAppleLib|CrabApplePkg/Library/CrabAppleLib/CrabAppleLib.inf
