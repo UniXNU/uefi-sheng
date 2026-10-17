@@ -60,7 +60,10 @@ STATIC EFI_MEMORY_REGION_DESCRIPTOR gMemoryDescriptor[] = {
   // 0x880000000 + 1 GiB and 0x8C0000000 + 5 GiB, category SDRAM). DxeCore got a synchronous external abort
   // clearing memory at 0x8BB300000, so the top of the first entry (to 0x8C0000000) is not given to UEFI.
   {"DRAM bank 1 low", 0x880000000, 0x3B300000, AddMem, SYS_MEM, SYS_MEM_CAP, Conv, WRITE_BACK_XN},
-  {"DRAM bank 1 high", 0x8C0000000, 0x60000000, AddMem, SYS_MEM, SYS_MEM_CAP, Conv, WRITE_BACK_XN},
+  // Four GiB inside SMEM entry 6's observed five-GiB extent. This expansion
+  // supports a 3.5-GiB owned window including a real 2-GiB scratch RAM disk;
+  // access beyond the former 1.5-GiB prefix still needs this hardware run.
+  {"DRAM bank 1 high", 0x8C0000000, 0x100000000, AddMem, SYS_MEM, SYS_MEM_CAP, Conv, WRITE_BACK_XN},
   {"IMEM Base", 0x14680000, 0x0002A000, NoHob, MMAP_IO, INITIALIZED, Conv, NS_DEVICE},
   {"IMEM Cookie Base", 0x146AA000, 0x00016000, AddDev, MMAP_IO, INITIALIZED, Conv, NS_DEVICE},
   {"IPC_ROUTER_TOP", 0x00400000, 0x00100000, AddDev, MMAP_IO, UNCACHEABLE, MmIO, NS_DEVICE},
