@@ -21,6 +21,8 @@
   gSiliciumPkgTokenSpaceGuid.PcdFrameBufferHeight|0|UINT32|0x0000A001
   gSiliciumPkgTokenSpaceGuid.PcdFrameBufferColorDepth|0|UINT8|0x0000A002
   gSiliciumPkgTokenSpaceGuid.PcdFrameBufferDelay|0|UINT32|0x0000A003
+  gSiliciumPkgTokenSpaceGuid.PcdFrameBufferFontScale|0|UINT8|0x0000A004
+  gSiliciumPkgTokenSpaceGuid.PcdFrameBufferFreezeWhenFull|FALSE|BOOLEAN|0x0000A005
 
   #
   # Timer
