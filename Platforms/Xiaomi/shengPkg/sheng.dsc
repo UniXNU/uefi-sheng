@@ -108,6 +108,8 @@
   CrabApplePkg/Driver/CrabAppleDxe/CrabAppleDxe.inf
   shengPkg/Drivers/ShengDisplayDepexDxe/ShengDisplayDepexDxe.inf
   shengPkg/Drivers/ShengGopLogDxe/ShengGopLogDxe.inf
+  shengPkg/Drivers/ShengBootMemoryDxe/ShengBootMemoryDxe.inf
+  DarwinBootPkg/Driver/DarwinBoot.inf
 
 [LibraryClasses]
   CrabAppleLib|CrabApplePkg/Library/CrabAppleLib/CrabAppleLib.inf
