@@ -21,6 +21,36 @@
 // First argument (x0) of the previous stage, saved by ModuleEntryPoint.S
 extern UINT64  gSecEntryArg0;
 
+// The library constructors ProcessLibraryConstructorList () runs for this module, in its generated order, called one by one so the screen
+// shows which one a stall is in (an entry here that the generated list lacks fails to link, which is the check).
+extern RETURN_STATUS EFIAPI BaseDebugLibSerialPortConstructor (VOID);
+extern RETURN_STATUS EFIAPI ExtractGuidedSectionLibConstructor (VOID);
+extern RETURN_STATUS EFIAPI ArmMmuBaseLibConstructor (VOID);
+extern RETURN_STATUS EFIAPI LzmaDecompressLibConstructor (VOID);
+
+// Walks the HOB list with a bound, so a zero-length or runaway entry is reported instead of looping forever in the constructors and in
+// the FV decompression that follow (both search the list).
+STATIC
+VOID
+CheckHobList (VOID)
+{
+  EFI_PEI_HOB_POINTERS  Hob;
+  UINTN                 Count = 0;
+
+  Hob.Raw = GetHobList ();
+  while (!END_OF_HOB_LIST (Hob)) {
+    if (Hob.Header->HobLength < sizeof (EFI_HOB_GENERIC_HEADER) || Count >= 16384) {
+      DEBUG ((EFI_D_ERROR, "SEC: HOB list broken at entry %u: type 0x%x length %u\n", (UINT32)Count, (UINT32)Hob.Header->HobType, (UINT32)Hob.Header->HobLength));
+      return;
+    }
+
+    Count++;
+    Hob.Raw = GET_NEXT_HOB (Hob);
+  }
+
+  DEBUG ((EFI_D_WARN, "SEC: HOB list ok, %u entries\n", (UINT32)Count));
+}
+
 #ifndef MDEPKG_NDEBUG
 STATIC
 VOID
@@ -144,9 +174,19 @@ SecMain (VOID)
     BuildGuidDataHob (&gSiliciumEntryArgHobGuid, &EntryArg, sizeof (EntryArg));
   }
 
+  CheckHobList ();
+
   // Run Library Cconstructors
-  ProcessLibraryConstructorList ();
+  DEBUG ((EFI_D_WARN, "SEC: constructor debug\n"));
+  BaseDebugLibSerialPortConstructor ();
+  DEBUG ((EFI_D_WARN, "SEC: constructor guided-section\n"));
+  ExtractGuidedSectionLibConstructor ();
+  DEBUG ((EFI_D_WARN, "SEC: constructor mmu\n"));
+  ArmMmuBaseLibConstructor ();
+  DEBUG ((EFI_D_WARN, "SEC: constructor lzma\n"));
+  LzmaDecompressLibConstructor ();
   DEBUG ((EFI_D_WARN, "SEC: constructors done\n"));
+  CheckHobList ();
 
   // Decompress all FVs
   Status = DecompressFirstFv ();
