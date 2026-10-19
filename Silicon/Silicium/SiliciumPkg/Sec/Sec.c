@@ -23,6 +23,9 @@ extern UINT64  gSecEntryArg0;
 
 // The library constructors ProcessLibraryConstructorList () runs for this module, in its generated order, called one by one so the screen
 // shows which one a stall is in (an entry here that the generated list lacks fails to link, which is the check).
+// Helper.S: clean and invalidate every data cache level by set/way (see there).
+extern VOID SecCleanInvalidateDataCacheAll (VOID);
+
 extern RETURN_STATUS EFIAPI BaseDebugLibSerialPortConstructor (VOID);
 extern RETURN_STATUS EFIAPI ExtractGuidedSectionLibConstructor (VOID);
 extern RETURN_STATUS EFIAPI ArmMmuBaseLibConstructor (VOID);
@@ -207,6 +210,10 @@ SecMain (VOID)
 VOID
 SecEntry (VOID)
 {
+  // The previous stage ran with its caches on. Clean and invalidate them before anything else: the UEFI writes its HOB tables and heap with
+  // the MMU and caches off, and lines the previous stage left would hide those writes (or be written back over them) once the caches are on.
+  SecCleanInvalidateDataCacheAll ();
+
   // Disable Data Cache
   ArmDisableDataCache ();
 
