@@ -100,6 +100,13 @@
   gQcomPkgTokenSpaceGuid.PcdPlatformType|NULL|VOID*|0x0000C000
 
   #
+  # TRUE: PlatformPeim scans the stock UEFI's "FD Reserved" window for its HOB registration functions and calls into the stock scheduler
+  # protocol it finds (only the stock vendor drivers read the resulting HOBs). FALSE: none of that runs; no stock code or stale memory
+  # is read or called during PEI.
+  #
+  gQcomPkgTokenSpaceGuid.PcdBuildXblHobs|TRUE|BOOLEAN|0x0000C001
+
+  #
   # Memory
   #
   gQcomPkgTokenSpaceGuid.PcdDestinationVmCount|0|UINT8|0x0000C100

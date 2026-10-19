@@ -132,11 +132,15 @@ PlatformPeim ()
   // Build FV HOB
   BuildFvHob (PcdGet64 (PcdFvBaseAddress), PcdGet32 (PcdFvSize));
 
-  // Get XBL HOB Addresses
-  GetXblHobAddresses (&SchedulerInterfaceAddr, &DtbExtensionAddr);
+  // The XBL scan reads whatever the previous stage left in the stock FD window and calls the stock scheduler protocol it finds there;
+  // a build without the stock vendor drivers has no reader of these HOBs and skips all of it.
+  if (FixedPcdGetBool (PcdBuildXblHobs)) {
+    // Get XBL HOB Addresses
+    GetXblHobAddresses (&SchedulerInterfaceAddr, &DtbExtensionAddr);
 
-  // Build XBL HOBs
-  BuildXblHobs (SchedulerInterfaceAddr, DtbExtensionAddr);
+    // Build XBL HOBs
+    BuildXblHobs (SchedulerInterfaceAddr, DtbExtensionAddr);
+  }
 
   return EFI_SUCCESS;
 }
