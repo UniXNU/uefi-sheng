@@ -88,6 +88,11 @@
   # Platform PEI
   #
   gQcomPkgTokenSpaceGuid.PcdPlatformType|"LA"
+!if $(SHENG_VENDOR_HW) == 0
+  # Intermittent stall right after "MMU: enabled" (int-103 photos): PlatformPeim scanned the stock UEFI's leftover FD window and
+  # called into its scheduler protocol. Without the stock vendor drivers nothing reads those HOBs.
+  gQcomPkgTokenSpaceGuid.PcdBuildXblHobs|FALSE
+!endif
 
 [LibraryClasses]
   #

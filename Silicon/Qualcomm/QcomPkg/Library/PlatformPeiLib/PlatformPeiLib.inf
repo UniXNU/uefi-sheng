@@ -42,6 +42,7 @@
   gArmTokenSpaceGuid.PcdFvSize
 
   gQcomPkgTokenSpaceGuid.PcdPlatformType
+  gQcomPkgTokenSpaceGuid.PcdBuildXblHobs
 
 [Guids]
   gEfiInfoBlkHobGuid

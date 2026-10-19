@@ -121,6 +121,8 @@ SecMain (VOID)
     return;
   }
 
+  DEBUG ((EFI_D_WARN, "SEC: memory HOBs done\n"));
+
   // Build CPU HOB
   BuildCpuHob (ArmGetPhysicalAddressBits (), PcdGet8 (PcdPrePiCpuIoSize));
 
@@ -129,6 +131,7 @@ SecMain (VOID)
 
   // Initialize Platform HOBs
   Status = PlatformPeim ();
+  DEBUG ((EFI_D_WARN, "SEC: platform HOBs done (%r)\n", Status));
   if (EFI_ERROR (Status)) {
     return;
   }
@@ -143,15 +146,18 @@ SecMain (VOID)
 
   // Run Library Cconstructors
   ProcessLibraryConstructorList ();
+  DEBUG ((EFI_D_WARN, "SEC: constructors done\n"));
 
   // Decompress all FVs
   Status = DecompressFirstFv ();
+  DEBUG ((EFI_D_WARN, "SEC: FV decompressed (%r)\n", Status));
   if (EFI_ERROR (Status)) {
     DEBUG ((EFI_D_ERROR, "Failed to Decompress FV! Status = %r\n", Status));
     return;
   }
 
   // Load DXE Core
+  DEBUG ((EFI_D_WARN, "SEC: loading DXE core\n"));
   Status = LoadDxeCoreFromFv (NULL, 0);
   if (EFI_ERROR (Status)) {
     DEBUG ((EFI_D_ERROR, "Failed to Load DXE Core! Status = %r\n", Status));
@@ -170,9 +176,10 @@ SecEntry (VOID)
   // Enable Instruction Cache
   ArmEnableInstructionCache ();
 
-  // Invalidate Stack & UEFI FD D-Cache
-  InvalidateDataCacheRange ((VOID *)FixedPcdGet64 (PcdCPUCoresStackBase), FixedPcdGet32 (PcdCPUCorePrimaryStackSize));
-  InvalidateDataCacheRange ((VOID *)FixedPcdGet64 (PcdFdBaseAddress),     FixedPcdGet32 (PcdFdSize));
+  // Write back and invalidate Stack & UEFI FD D-Cache. A plain invalidate would discard what the entry code just stored there
+  // (live stack frames, gSecEntryArg0) if the previous stage left the data cache on.
+  WriteBackInvalidateDataCacheRange ((VOID *)FixedPcdGet64 (PcdCPUCoresStackBase), FixedPcdGet32 (PcdCPUCorePrimaryStackSize));
+  WriteBackInvalidateDataCacheRange ((VOID *)FixedPcdGet64 (PcdFdBaseAddress),     FixedPcdGet32 (PcdFdSize));
 
   // Verify Exception Vector Table
   ASSERT (((UINTN)SecVectorTable & ARM_VECTOR_TABLE_ALIGNMENT) == 0);
