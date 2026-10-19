@@ -30,7 +30,7 @@ class CommonPlatform ():
     Scopes = ('sheng', 'gcc_aarch64_linux', 'edk2-build')
     WorkspaceRoot = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
     PackagesPath = (
-        os.environ.get("CRABAPPLE_ROOT", os.path.join(WorkspaceRoot, "..", "crabapple")),
+        os.path.join(os.environ.get("UNIXNU_ROOT", os.path.join(WorkspaceRoot, "..", "UniXNU")), "package"),
         "Platforms/Xiaomi",
         "Common/Mu",
         "Common/Mu_OEM_Sample",

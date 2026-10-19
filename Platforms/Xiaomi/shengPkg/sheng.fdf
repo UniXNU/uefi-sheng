@@ -92,9 +92,9 @@ READ_LOCK_STATUS   = TRUE
   INF MdeModulePkg/Universal/SmbiosDxe/SmbiosDxe.inf
   INF SiliciumPkg/Drivers/SmBiosTableDxe/SmBiosTableDxe.inf
 
-  # CrabApple
-  INF CrabApplePkg/Application/CrabApple/CrabApple.inf
-  INF CrabApplePkg/Driver/CrabAppleDxe/CrabAppleDxe.inf
+  # UniXNU
+  INF UniXNUPkg/Application/UniXNU/UniXNU.inf
+  INF UniXNUPkg/Driver/UniXNUDxe/UniXNUDxe.inf
 
   # IORT DT
   INF QcomPkg/Drivers/IortDtDxe/IortDtDxe.inf
