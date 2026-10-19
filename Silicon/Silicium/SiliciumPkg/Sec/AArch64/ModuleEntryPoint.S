@@ -19,6 +19,11 @@ ASM_FUNC (_ModuleEntryPoint)
   msr   SPSel, #1
   isb
 
+  // Before the first store of this stage: clean and invalidate the data caches the previous stage filled (x0 is kept in x20).
+  mov   x20, x0
+  bl    ASM_PFX (SecCleanInvalidateDataCacheAll)
+  mov   x0, x20
+
   // Keep x0 for the platform. It is the address of the DT a Linux-style boot
   // loader hands over. The slot is in this section, which is in RAM here.
   adr   x1, ASM_PFX (gSecEntryArg0)
