@@ -104,13 +104,13 @@
   #
   # ACPI Tables
   #
-  CrabApplePkg/Application/CrabApple/CrabApple.inf
-  CrabApplePkg/Driver/CrabAppleDxe/CrabAppleDxe.inf
+  UniXNUPkg/Application/UniXNU/UniXNU.inf
+  UniXNUPkg/Driver/UniXNUDxe/UniXNUDxe.inf
   shengPkg/Drivers/ShengDisplayDepexDxe/ShengDisplayDepexDxe.inf
   shengPkg/Drivers/ShengGopLogDxe/ShengGopLogDxe.inf
   shengPkg/Drivers/ShengBootMemoryDxe/ShengBootMemoryDxe.inf
   DarwinBootPkg/Driver/DarwinBoot.inf
 
 [LibraryClasses]
-  CrabAppleLib|CrabApplePkg/Library/CrabAppleLib/CrabAppleLib.inf
+  UniXNULib|UniXNUPkg/Library/UniXNULib/UniXNULib.inf
   FdtLib|MdePkg/Library/BaseFdtLib/BaseFdtLib.inf

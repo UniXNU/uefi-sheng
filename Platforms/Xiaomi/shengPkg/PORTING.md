@@ -43,7 +43,7 @@ or ABL powers the panel down, see `scripts/sheng-abl-dtb.py` in the umbrella).
 Line pitch equals the width in bytes; the early log is readable as is.
 
 * `SHENG_VENDOR_HW = 0` (default): Mu drivers only, SimpleFbDxe publishes the
-  GOP on that frame buffer. The panel stays on and CrabApple's menu shows.
+  GOP on that frame buffer. The panel stays on and UniXNU's menu shows.
 * `SHENG_VENDOR_HW = 1`: adds the stock vendor hardware drivers. Their
   initialization (seen last: ClockDxe after SMEM/DAL/IPCC/GLink/CmdDb/NPA/RPMh/
   VCS) turns the panel black while the backlight stays on; the log goes with
@@ -60,8 +60,8 @@ The log follows the frame buffer a platform driver hands over
 
 Generic Kailua code may still require additional ACPI/DT work.
 
-CrabApple is embedded as an application plus its registrar. The sibling
-`crabapple` repository supplies the package; `CRABAPPLE_ROOT` can override
+UniXNU is embedded as an application plus its registrar. The sibling
+`UniXNU` repository supplies the package; `UNIXNU_ROOT` can override
 that location. Its core remains unchanged by board-specific code.
 
 ## Display chain (first-boot 亮屏 path)
