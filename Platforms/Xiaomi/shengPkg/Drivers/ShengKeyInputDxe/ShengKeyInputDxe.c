@@ -14,10 +14,13 @@
 #include <Library/DebugLib.h>
 #include <Library/MemoryAllocationLib.h>
 #include <Library/UefiBootServicesTableLib.h>
+#include <Library/UefiRuntimeServicesTableLib.h>
+#include <Library/DevicePathLib.h>
 #include <Library/UefiLib.h>
 #include <Protocol/DevicePath.h>
 #include <Protocol/SimpleTextIn.h>
 #include <Guid/EventGroup.h>
+#include <Guid/GlobalVariable.h>
 
 #include "ShengSpmiKeys.h"
 
@@ -169,6 +172,70 @@ OnExitBootServices (
   gBS->SetTimer (mTimer, TimerCancel, 0);
 }
 
+// The console stack only splits the input devices named in the ConIn variable (ConPlatformDxe), so this device has to be listed there
+// or the boot manager never sees its keys. The variable is volatile when it did not exist before; an existing one keeps its attributes.
+STATIC
+EFI_STATUS
+AddToConIn (
+  VOID
+  )
+{
+  EFI_STATUS  Status;
+  UINTN       OldSize, OurSize, NewSize;
+  UINT32      Attributes;
+  UINT8       *Old, *New;
+
+  OurSize = GetDevicePathSize ((EFI_DEVICE_PATH_PROTOCOL *)&mPath);
+  OldSize = 0;
+  Status  = gRT->GetVariable (EFI_CON_IN_VARIABLE_NAME, &gEfiGlobalVariableGuid, &Attributes, &OldSize, NULL);
+  if (Status == EFI_NOT_FOUND) {
+    return gRT->SetVariable (EFI_CON_IN_VARIABLE_NAME, &gEfiGlobalVariableGuid, EFI_VARIABLE_BOOTSERVICE_ACCESS | EFI_VARIABLE_RUNTIME_ACCESS, OurSize, &mPath);
+  }
+
+  if (Status != EFI_BUFFER_TOO_SMALL) {
+    return Status;
+  }
+
+  Old = AllocatePool (OldSize + OurSize);
+  if (Old == NULL) {
+    return EFI_OUT_OF_RESOURCES;
+  }
+
+  Status = gRT->GetVariable (EFI_CON_IN_VARIABLE_NAME, &gEfiGlobalVariableGuid, &Attributes, &OldSize, Old);
+  if (!EFI_ERROR (Status)) {
+    EFI_DEVICE_PATH_PROTOCOL  *Instance;
+    UINTN                     Offset;
+
+    //
+    // Already listed? Walk the instances.
+    //
+    for (Offset = 0; Offset < OldSize;) {
+      Instance = (EFI_DEVICE_PATH_PROTOCOL *)(Old + Offset);
+      if (CompareMem (Instance, &mPath, sizeof (VENDOR_DEVICE_PATH)) == 0) {
+        FreePool (Old);
+        return EFI_SUCCESS;
+      }
+
+      Offset += GetDevicePathSize (Instance);
+      if (Offset >= OldSize) {
+        break;
+      }
+    }
+
+    //
+    // Append: drop the old list's end node, then our node and end.
+    //
+    New     = Old;
+    NewSize = OldSize - sizeof (EFI_DEVICE_PATH_PROTOCOL);
+    CopyMem (New + NewSize, &mPath, OurSize);
+    NewSize += OurSize;
+    Status   = gRT->SetVariable (EFI_CON_IN_VARIABLE_NAME, &gEfiGlobalVariableGuid, Attributes, NewSize, New);
+  }
+
+  FreePool (Old);
+  return Status;
+}
+
 EFI_STATUS
 EFIAPI
 ShengKeyInputDxeEntry (
@@ -214,6 +281,16 @@ ShengKeyInputDxeEntry (
 
   if (!EFI_ERROR (Status)) {
     Status = gBS->SetTimer (mTimer, TimerPeriodic, EFI_TIMER_PERIOD_MILLISECONDS (POLL_MS));
+  }
+
+  if (!EFI_ERROR (Status)) {
+    EFI_STATUS  Listed = AddToConIn ();
+
+    DEBUG ((DEBUG_INFO, "ShengKeyInput: ConIn %r\n", Listed));
+    //
+    // Binds the console stack now when it is already loaded; otherwise the boot manager's connect pass does.
+    //
+    gBS->ConnectController (mHandle, NULL, NULL, TRUE);
   }
 
   return Status;
