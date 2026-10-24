@@ -26,3 +26,10 @@ DarwinBoot loader. UniXNU-sm8550-common supplies shared XNU platform support.
 
 All code except drivers in `GPLDrivers` & `GPLApplications` & `GPLLibrary` directories are licensed under BSD-2-Clause. <br />
 GPL Drivers are licensed under `GPLv2` or later license.
+
+## Device porting record
+
+The firmware section of [sheng's porting record](https://unixnu.com/devices/sheng#firmware)
+records handoff inputs, development findings, evidence and completion criteria.
+Update `UniXNU-sheng/porting.toml` when firmware work changes those inputs or
+results. Maintainers and agents use the [same workflow](https://unixnu.com/porting/records).

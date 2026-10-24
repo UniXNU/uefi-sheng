@@ -35,3 +35,10 @@ Build with the selected UniXNU device and OS profiles using Building.md.
 Run existing firmware checks. Report build commands, revisions, required
 inputs, and results. Record hardware boot and peripheral observations with
 the device and firmware configuration.
+
+## Device porting record
+
+The firmware section of [sheng's porting record](https://unixnu.com/devices/sheng#firmware)
+records handoff inputs, development findings, evidence and completion criteria.
+Update `UniXNU-sheng/porting.toml` when firmware work changes those inputs or
+results. Maintainers and agents use the [same workflow](https://unixnu.com/porting/records).
