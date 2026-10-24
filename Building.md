@@ -15,10 +15,15 @@ The device profile defines the firmware DSC, defines, preflight commands,
 and output path. Host requirements and input preparation are documented in
 [firmware integration](https://unixnu.com/porting/uefi-firmware).
 
-Provide the board firmware inputs and compiled FDT described by the device
-profile before packaging:
+The firmware embeds `UniXNU`, `UniXNUDxe`, `DarwinBoot` and the shared
+`UniXNURamDiskDxe`, with DiskIoDxe and FAT support. Keep each INF in the DSC
+and FDF. The RAM disk driver publishes the bootloader's initrd so UniXNU can
+read `EFI/UniXNU/unixnu.toml` and list the payload entries.
+
+Provide the selected device's payload inputs and compiled firmware FDT before packaging:
 
 ```sh
+./unixnu build payload --unique-chip-id <hex> --trust-cache <file> --data-ramdisk <seed>
 ./unixnu bootimg --uefi ../uefi-sheng --dtb /path/to/sheng.dtb
 ```
 
