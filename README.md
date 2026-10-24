@@ -42,3 +42,12 @@ The firmware section of [sheng's porting record](https://unixnu.com/devices/shen
 records handoff inputs, development findings, evidence and completion criteria.
 Update `UniXNU-sheng/porting.toml` when firmware work changes those inputs or
 results. Maintainers and agents use the [same workflow](https://unixnu.com/porting/records).
+
+## Local build inputs
+
+Save device paths and boot arguments in `unixnu.local.toml` in the UniXNU
+checkout. See the [configuration reference](https://unixnu.com/reference/configuration#local-build-inputs).
+Then use `./unixnu kernel`, `./unixnu firmware`, `./unixnu payload`, and
+`./unixnu bootimg`. Argument changes require rebuilding the payload and boot
+image. See [boot arguments](https://unixnu.com/xnu/boot-arguments#apply-arguments)
+and [green-bar diagnosis](https://unixnu.com/guide/debugging#green-bar).
