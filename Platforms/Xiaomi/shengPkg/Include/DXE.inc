@@ -44,6 +44,7 @@
 
   INF MdeModulePkg/Universal/DevicePathDxe/DevicePathDxe.inf
   INF shengPkg/Drivers/ShengBootMemoryDxe/ShengBootMemoryDxe.inf
+  INF UniXNUPkg/Driver/UniXNURamDiskDxe/UniXNURamDiskDxe.inf
   # The XNU loader is part of the firmware: a driver loaded from a volume is
   # refused by the image verification of this build.
   INF DarwinBootPkg/Driver/DarwinBoot.inf
