@@ -22,15 +22,10 @@
   FdtLib
   HobLib
   MemoryAllocationLib
-  UefiBootServicesTableLib
   UefiDriverEntryPoint
 
 [Guids]
   gSiliciumEntryArgHobGuid                      ## CONSUMES
-
-[Protocols]
-  gEfiBlockIoProtocolGuid                       ## PRODUCES
-  gEfiDevicePathProtocolGuid                    ## PRODUCES
 
 [Depex]
   TRUE
