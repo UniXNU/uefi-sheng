@@ -42,6 +42,11 @@ UniXNU supplies the application package and registrar. DarwinBoot loads the
 XNU kernel and ADT sidecar. UniXNU-sheng selects board firmware and boot-image
 parameters. UniXNU-sm8550-common supplies shared XNU platform operations.
 
+`UniXNURamDiskDxe` comes from UniXNU's shared package. It publishes the
+FDT initrd as Block I/O; DiskIoDxe and FAT expose the payload filesystem.
+`ShengBootMemoryDxe` adds DRAM within the board's mapping limits.
+Both modules are listed in the platform DSC and firmware volume.
+
 Build through the UniXNU resolver using [Building.md](../../../Building.md).
 Keep architecture, device-tree, and packaging documentation in the
 [UniXNU site](https://unixnu.com/porting/uefi-firmware).

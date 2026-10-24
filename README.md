@@ -13,6 +13,15 @@ DarwinBoot loader. UniXNU-sm8550-common supplies shared XNU platform support.
 - [Platform details](Platforms/Xiaomi/shengPkg/PORTING.md)
 - [Platform status](Status.md)
 
+## Payload firmware
+
+Build through `./unixnu build firmware --uefi ../uefi-sheng` from UniXNU.
+The DSC and FDF include `UniXNURamDiskDxe`, DiskIoDxe and FAT support so the
+boot-image payload appears as a filesystem. `UniXNURamDiskDxe` is a shared
+module in UniXNU's `package/`, and uses the Mu-Silicium FDT handoff.
+`ShengBootMemoryDxe` supplies the board's memory expansion policy.
+See [required firmware integration](https://unixnu.com/porting/uefi-firmware#required-integration).
+
 ## Credits
 
 [Microsoft](https://github.com/microsoft/) for their [Project Mu](https://microsoft.github.io/mu/) which Powers this Project. <br>
