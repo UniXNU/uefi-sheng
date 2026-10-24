@@ -1,29 +1,17 @@
-# Project Silicium UEFI for ARM64-Based Devices
+# uefi-sheng
 
-[![Documentation](https://img.shields.io/badge/docs-unixnu.com-2A5BD7?logo=readthedocs&logoColor=white)](https://unixnu.com)
+UEFI platform integration for the Xiaomi Pad 6S Pro (sheng, SM8550), using
+Project Silicium and Project Mu.
 
-UniXNU device documentation: [unixnu.com](https://unixnu.com).
+The platform supplies memory reservations, board peripherals, display
+handoff, and the firmware volume. UniXNU supplies the boot application and
+DarwinBoot loader. UniXNU-sm8550-common supplies shared XNU platform support.
 
-<!-- ![Banner](https://github.com/Project-Silicium/Mu-Silicium/blob/main/Resources/Pictures/Banner.png) -->
-
-## Description
-
-This Project focuses on Making ARM-Based Devices Boot Operating Systems like Windows or Linux using Custom UEFI Firmware.
-
-## Resources
-
-- [Status](Status.md)
-- [Building](Building.md)
-- [Guides](https://github.com/Project-Silicium/Guides/blob/main/README.md)
-- [Discord Server](https://discord.gg/Dx2QgMx7Sv)
-
-## Frequently asked Questions
-
-### **Is my Device Supported in this Project?**
-- To Check if your Device is Supported, Take a Look at the Status Page Referenced in the Section Above.
-
-### **What do I do if my Device isn't Supported in this Project?**
-- We made some Guides that Explain How to Port your Device that are Referenced in the Section Above.
+- [Firmware integration](https://unixnu.com/porting/uefi-firmware)
+- [sheng device support](https://unixnu.com/devices/sheng)
+- [Build instructions](Building.md)
+- [Platform details](Platforms/Xiaomi/shengPkg/PORTING.md)
+- [Platform status](Status.md)
 
 ## Credits
 
