@@ -1,6 +1,6 @@
 [submodule "Binaries"]
 	path = Binaries
-	url = https://github.com/Project-Silicium/Device-Binaries.git
+	url = https://github.com/UniXNU/Device-Binaries.git
 	ignore = untracked
 [submodule "Common/Mu"]
 	path = Common/Mu
