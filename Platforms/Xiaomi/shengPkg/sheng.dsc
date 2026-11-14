@@ -104,6 +104,9 @@
   # Memory Libraries
   #
   MemoryMapLib|shengPkg/Library/MemoryMapLib/MemoryMapLib.inf
+!if $(SHENG_VENDOR_HW) == 0
+  PlatformSecLib|shengPkg/Library/PlatformSecLib/PlatformSecLib.inf
+!endif
 
   #
   # QCOM Libraries
