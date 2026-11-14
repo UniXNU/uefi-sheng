@@ -16,6 +16,13 @@ The 72 descriptors include PIL gaps, display/Demura memory, DBI dump, and
 CPU vectors. NoMap regions produce reservation HOBs. The 3 MiB FD at
 `0xa7100000` occupies the stock 4 MiB FD window at `0xa7000000`.
 
+On the 8 GiB configuration, SEC intersects the static map with the ABL
+device tree before creating memory HOBs. The map retains active carveouts,
+the ABL handoff buffers and the fixed ADSP buffer. The high bank includes
+the 30 MiB extent at `0x8bb500000` when ABL supplies it. The modem carveout
+is released only when ABL marks it disabled. Check the firmware map and
+XNU's adopted page count after boot.
+
 The vendor import tools retain module GUIDs, PE bytes, and binary DEPEX in
 local firmware inputs. Select firmware inputs using the device configuration.
 
