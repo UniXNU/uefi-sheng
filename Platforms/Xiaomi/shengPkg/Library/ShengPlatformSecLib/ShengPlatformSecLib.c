@@ -3,6 +3,9 @@
 #include <Library/ArmSmmuDetachLib.h>
 #include <Library/DebugLib.h>
 #include "../../Include/ShengBootGuard.h"
+#include "../MemoryMapLib/ShengMemoryMap.h"
+
+extern UINT64 gSecEntryArg0;
 
 VOID
 PlatformInitialize (VOID)
@@ -34,6 +37,7 @@ PlatformInitialize (VOID)
     ShengWatchdogCall (0x84000009, 0, 0);
     for (;;) __asm__ volatile ("wfe");
   }
+  ShengPrepareMemoryMap ((CONST VOID *)(UINTN)gSecEntryArg0);
   CONST UINT16 MdpStreams[] = { 0x1C00, 0x1C01, 0x1C03, 0x1C04, 0x2801, 0x2C01 };
   ArmSmmuDetach (MdpStreams, ARRAY_SIZE (MdpStreams));
 }
