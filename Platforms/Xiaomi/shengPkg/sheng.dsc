@@ -32,6 +32,9 @@
   #     USB, charger, ...). Their initialization currently blanks the panel.
   #
   SHENG_VENDOR_HW                = 0
+!ifndef SHENG_BOOT_GUARD
+  DEFINE SHENG_BOOT_GUARD         = 0
+!endif
 
   #
   # 0 = SM8550-AB
@@ -80,8 +83,7 @@
   # Scale 3 gives 56 lines. The log wraps, so the screen always shows the
   # newest lines; the platform debug level is left unchanged.
   gSiliciumPkgTokenSpaceGuid.PcdFrameBufferFontScale|3
-  # Pause per log line so a video of the screen shows what loads last.
-  gSiliciumPkgTokenSpaceGuid.PcdFrameBufferDelay|30000
+  gSiliciumPkgTokenSpaceGuid.PcdFrameBufferDelay|0
 
 
   #
@@ -95,6 +97,9 @@
 !endif
 
 [LibraryClasses]
+!if $(SHENG_BOOT_GUARD) == 1
+  PlatformSecLib|shengPkg/Library/ShengPlatformSecLib/ShengPlatformSecLib.inf
+!endif
   #
   # Memory Libraries
   #
@@ -106,6 +111,9 @@
   ConfigurationMapLib|shengPkg/Library/ConfigurationMapLib/ConfigurationMapLib.inf
 
 [Components]
+!if $(SHENG_BOOT_GUARD) == 1
+  shengPkg/Drivers/ShengBootGuardDxe/ShengBootGuardDxe.inf
+!endif
   #
   # ACPI Tables
   #

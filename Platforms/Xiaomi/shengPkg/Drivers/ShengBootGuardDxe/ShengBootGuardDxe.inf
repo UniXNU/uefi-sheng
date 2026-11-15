@@ -1,0 +1,19 @@
+[Defines]
+  INF_VERSION = 0x0001001B
+  BASE_NAME = ShengBootGuardDxe
+  FILE_GUID = 41B25E8B-81ED-4EEB-BBF6-A48245A3D0C8
+  MODULE_TYPE = DXE_DRIVER
+  VERSION_STRING = 1.0
+  ENTRY_POINT = ShengBootGuardDxeEntry
+[Sources]
+  ShengBootGuardDxe.c
+[Packages]
+  MdePkg/MdePkg.dec
+[LibraryClasses]
+  DebugLib
+  UefiBootServicesTableLib
+  UefiDriverEntryPoint
+[Guids]
+  gEfiEventExitBootServicesGuid
+[Depex]
+  TRUE
