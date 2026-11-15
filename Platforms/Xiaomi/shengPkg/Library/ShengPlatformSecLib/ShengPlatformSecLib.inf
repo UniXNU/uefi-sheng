@@ -1,0 +1,18 @@
+[Defines]
+  INF_VERSION = 0x0001001B
+  BASE_NAME = ShengPlatformSecLib
+  FILE_GUID = 70D5C321-B069-4A23-AC41-6BF927731D72
+  MODULE_TYPE = SEC
+  VERSION_STRING = 1.0
+  LIBRARY_CLASS = PlatformSecLib
+[Sources]
+  ShengPlatformSecLib.c
+  PlatformHelper.S
+[Packages]
+  ArmPkg/ArmPkg.dec
+  MdePkg/MdePkg.dec
+  SiliciumPkg/SiliciumPkg.dec
+  QcomPkg/QcomPkg.dec
+[LibraryClasses]
+  ArmSmmuDetachLib
+  DebugLib
