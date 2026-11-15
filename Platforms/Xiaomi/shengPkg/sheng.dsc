@@ -105,7 +105,9 @@
   #
   MemoryMapLib|shengPkg/Library/MemoryMapLib/MemoryMapLib.inf
 !if $(SHENG_VENDOR_HW) == 0
+!if $(SHENG_BOOT_GUARD) == 0
   PlatformSecLib|shengPkg/Library/PlatformSecLib/PlatformSecLib.inf
+!endif
 !endif
 
   #

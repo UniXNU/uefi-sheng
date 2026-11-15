@@ -16,3 +16,4 @@
 [LibraryClasses]
   ArmSmmuDetachLib
   DebugLib
+  MemoryMapLib
