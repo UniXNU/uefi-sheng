@@ -30,6 +30,10 @@ PlatformInitialize (VOID)
   }
   DEBUG ((DEBUG_ERROR, "Sheng guard: mark=%d %02x->%02x status=%Ld set=%Ld enable=%Ld\n",
           Mark, Before, After, Status, Set, Enable));
+  if (Mark != 0 || Status != 0 || Set != 0 || Enable != 0) {
+    ShengWatchdogCall (0x84000009, 0, 0);
+    for (;;) __asm__ volatile ("wfe");
+  }
   CONST UINT16 MdpStreams[] = { 0x1C00, 0x1C01, 0x1C03, 0x1C04, 0x2801, 0x2C01 };
   ArmSmmuDetach (MdpStreams, ARRAY_SIZE (MdpStreams));
 }
