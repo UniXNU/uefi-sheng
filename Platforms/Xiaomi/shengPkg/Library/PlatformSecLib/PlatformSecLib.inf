@@ -1,0 +1,28 @@
+##
+#  Copyright (c) 2011-2012, ARM Limited. All rights reserved.
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+##
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = PlatformSecLib
+  FILE_GUID                      = A8F02F84-451F-4D4C-A243-8937551706D8
+  MODULE_TYPE                    = SEC
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = PlatformSecLib
+
+[Sources]
+  PlatformSec.c
+
+[Sources.AArch64]
+  AArch64/PlatformHelper.S
+
+[Packages]
+  ArmPkg/ArmPkg.dec
+  MdePkg/MdePkg.dec
+  SiliciumPkg/SiliciumPkg.dec
+  QcomPkg/QcomPkg.dec
+
+[LibraryClasses]
+  ArmSmmuDetachLib
+  MemoryMapLib

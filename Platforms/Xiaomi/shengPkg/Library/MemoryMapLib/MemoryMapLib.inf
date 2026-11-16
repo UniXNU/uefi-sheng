@@ -8,8 +8,14 @@
 
 [Sources]
   MemoryMapLib.c
+  ShengMemoryMap.h
 
 [Packages]
   ArmPkg/ArmPkg.dec
   MdePkg/MdePkg.dec
   SiliciumPkg/SiliciumPkg.dec
+
+[LibraryClasses]
+  BaseLib
+  BaseMemoryLib
+  FdtLib

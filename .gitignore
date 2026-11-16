@@ -6,6 +6,7 @@ Conf
 bootpayload.bin
 BootShim.bin
 BootShim.elf
+Platforms/Xiaomi/shengPkg/Include/BootResetCore.h
 
 Mu-*.*
 *:Zone.Identifier

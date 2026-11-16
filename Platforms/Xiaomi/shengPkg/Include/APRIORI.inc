@@ -13,6 +13,9 @@ APRIORI DXE {
   INF ArmPkg/Drivers/ArmGicDxe/ArmGicDxe.inf
   INF EmbeddedPkg/MetronomeDxe/MetronomeDxe.inf
   INF ArmPkg/Drivers/TimerDxe/TimerDxe.inf
+!if $(SHENG_BOOT_GUARD) == 1
+  INF shengPkg/Drivers/ShengBootGuardDxe/ShengBootGuardDxe.inf
+!endif
 
 !if $(SHENG_VENDOR_HW) == 1
   INF Binaries/sheng/QcomPkg/Drivers/SmemDxe/SmemDxe.inf

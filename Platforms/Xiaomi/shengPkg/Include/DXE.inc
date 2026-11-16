@@ -27,6 +27,9 @@
   INF MdeModulePkg/Universal/HiiDatabaseDxe/HiiDatabaseDxe.inf
   INF ArmPkg/Drivers/ArmGicDxe/ArmGicDxe.inf
   INF ArmPkg/Drivers/TimerDxe/TimerDxe.inf
+!if $(SHENG_BOOT_GUARD) == 1
+  INF shengPkg/Drivers/ShengBootGuardDxe/ShengBootGuardDxe.inf
+!endif
 
 !if $(SHENG_VENDOR_HW) == 1
   INF Binaries/sheng/QcomPkg/Drivers/ChipInfoDxe/ChipInfoDxe.inf
